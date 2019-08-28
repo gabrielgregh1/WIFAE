@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "860276309681",
+    "firebase_url": "https://wifae-1e225.firebaseio.com",
+    "project_id": "wifae-1e225",
+    "storage_bucket": "wifae-1e225.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860276309681:android:91d8259b0d77d0d2",
+        "android_client_info": {
+          "package_name": "com.wifae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860276309681-342e3kut7uis4lc6n40fv4g0b4bk7un9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wifae",
+            "certificate_hash": "5d16e7a3f845139dbf0cf83237739fc02b445d29"
+          }
+        },
+        {
+          "client_id": "860276309681-2va3l4v2kq2pc926m1svigc4gc8f1mq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwpShoYuS4z9NkXiqg892RP37Bh4xuMGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860276309681-2va3l4v2kq2pc926m1svigc4gc8f1mq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
