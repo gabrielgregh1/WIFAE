@@ -21,7 +21,7 @@ export default () => {
                     key="wellcome"
                     component={Wellcome}
                     hideNavBar
-                    
+                    initial
                 /> 
                 <Scene
                     key="phone"
@@ -37,7 +37,7 @@ export default () => {
                     key="choice"
                     component={Choice}
                     hideNavBar
-                    initial
+                    
                 /> 
                 <Scene
                     key="perfil"

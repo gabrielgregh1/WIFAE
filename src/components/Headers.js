@@ -15,10 +15,11 @@ import { createIconSetFromIcoMoon } from "react-native-vector-icons"
 import colors from "../styles/colors"
 /*Functions and Constants*/
 import icoMoonConfig from "../../selection.json"
+import { Actions } from "react-native-router-flux"
  
 const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
 
-export function HeaderPrim(){
+export function HeaderPrim(props){
 
     useEffect(()=>{
         StatusBar.setBackgroundColor(colors.primary)
@@ -28,7 +29,9 @@ export function HeaderPrim(){
         <View style={stylesPrim.conteiner}>
             
                 <View style={stylesPrim.button}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> Actions.perfil()}
+                    >
                         <Icon
                             name={"profile"} 
                             size={32} 
@@ -39,7 +42,9 @@ export function HeaderPrim(){
                     
                 </View>
                 <View style={stylesPrim.button}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> props.page != "choice" && Actions.choice()}
+                    >
                         <Icon
                             name={"wifi"} 
                             size={42} 
@@ -50,7 +55,9 @@ export function HeaderPrim(){
 
             
                 <View style={stylesPrim.button}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> Actions.choice()}
+                    >
                         <Icon
                             name={"chat"} 
                             size={32} 

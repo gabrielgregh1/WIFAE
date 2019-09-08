@@ -190,7 +190,9 @@ export default function Choice(){
     
     return(
         <View style={styles.conteiner}>
-            <HeaderPrim />
+            <HeaderPrim 
+                page="choice"
+            />
             <View style={styles.conteinerBack}>
                 {repository.userExibido.nome != null ?
                     <Box style={styles.photo} pose={repository.animate}>

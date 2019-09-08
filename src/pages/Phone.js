@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import firebase from "react-native-firebase"
 import { TextField } from "react-native-material-textfield"
+import { Actions } from "react-native-router-flux"
 /*Components*/
 import {ButtonPrimary} from "../components/Buttons"
 /*Styles*/

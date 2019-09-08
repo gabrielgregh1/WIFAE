@@ -23,6 +23,7 @@ import {
     formatPhoneBrazil,
     replaceAll
 } from "../functions"
+import { Actions } from "react-native-router-flux"
 
 export default function Code(props){
     const [repositories, setRepositories] = useState({
@@ -66,6 +67,8 @@ export default function Code(props){
                         button:"Analisando code. . ."
                     }
                 )
+                Actions.choice()
+
                 alert("CODE CONFIRMADO")
                 break;
             }
@@ -208,7 +211,7 @@ export default function Code(props){
                             </View>
                         </View>
                         <ButtonPrimary
-                            onPress={() => sendMessage()}
+                            // onPress={() => sendMessage()}
                             isLoading={repositories.is_loading}
                             label={repositories.button}
                         />
