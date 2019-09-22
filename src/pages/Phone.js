@@ -3,7 +3,9 @@ import React, {
     useState
 } from "react"
 import {
+    Alert,
     ImageBackground,
+    TouchableOpacity,
     StyleSheet,
     Text,
     View
@@ -23,7 +25,7 @@ import {
     formatPhoneBrazil,
     replaceAll
 } from "../functions"
-export default function Phone(){
+export default function Phone(props){
     const [repositories, setRepositories] = useState({
         button:"Continuar",
         phone:"",
@@ -61,41 +63,98 @@ export default function Phone(){
             let phone_format = replaceAll(phone, " ", "")
             phone_format = replaceAll(phone_format, "-", "")
             phone_format = "+55"+phone_format 
-
-            // this.props.changePhone(phone_format)
-             
-            // alert(phone_format)
             setRepositories(
                 {
                     ...repositories,
                     is_loading:true, 
-                    button:"Enviando code. . ."
+                    button:"Verificando número. . ."
                 }
             )
-
-            firebase.auth().signInWithPhoneNumber(phone_format)
-            .then(confirmResult =>  {
-                setRepositories(
-                    {
-                        ...repositories,
-                        is_loading:false, 
-                        button:"Continuar"
+            firebase.database().ref("users").orderByChild("tel").equalTo(phone_format)
+            .once("value", data =>{ 
+                if(props.create == 1){
+                    setRepositories(
+                        {
+                            ...repositories,
+                            is_loading:true, 
+                            button:"Enviando code. . ."
+                        }
+                    )
+                    console.warn("passou1")
+                    firebase.auth().signInWithPhoneNumber(phone_format)
+                    .then(confirmResult =>  {
+                        setRepositories(
+                            {
+                                ...repositories,
+                                is_loading:false, 
+                                button:"Continuar"
+                            }
+                        )
+                        Actions.code({phone:phone_format, create:1})
+                    })
+                    .catch(error =>  {
+                        alert(JSON.stringify(error))
+                        // Alert.alert("Falha ao enviar o sms", "Verifique sua internet e tente novamente.")
+                        setRepositories(
+                            {
+                                ...repositories,
+                                is_loading:false, 
+                                button:"Continuar"
+                            }
+                        )
+                    }) 
+                }else{
+                    try{
+                        const dataJSON =  JSON.parse(JSON.stringify(data) ) 
+                        console.warn(dataJSON[1].tel)
+    
+                        setRepositories(
+                            {
+                                ...repositories,
+                                is_loading:true, 
+                                button:"Enviando code. . ."
+                            }
+                        )
+        
+                        firebase.auth().signInWithPhoneNumber(phone_format)
+                        .then(confirmResult =>  {
+                            setRepositories(
+                                {
+                                    ...repositories,
+                                    is_loading:false, 
+                                    button:"Continuar"
+                                }
+                            )
+                            Actions.code({phone:phone_format, create:0})
+                        })
+                        .catch(error =>  {
+                            alert(JSON.stringify(error))
+                            // Alert.alert("Falha ao enviar o sms", "Verifique sua internet e tente novamente.")
+                            setRepositories(
+                                {
+                                    ...repositories,
+                                    is_loading:false, 
+                                    button:"Continuar"
+                                }
+                            )
+                        }) 
+                    }catch(err){
+                        console.warn("NAO esta cadastrado")
+                        Alert.alert("Contra não cadastrada", "Peça um convite para seus amigos, para que possa continuar =).")
+                        setRepositories(
+                            {
+                                ...repositories,
+                                is_loading:false, 
+                                error_phone:"Número não cadastrado."
+                            }
+                        )
                     }
-                )
-                Actions.code({phone:phone_format})
+                }
+                
+                
+            }).catch(err =>{
+                console.warn(err)
             })
-            .catch(error =>  {
-                alert(JSON.stringify(error))
-                // Alert.alert("Falha ao enviar o sms", "Verifique sua internet e tente novamente.")
-                setRepositories(
-                    {
-                        ...repositories,
-                        is_loading:false, 
-                        button:"Continuar"
-                    }
-                )
-            }) 
-
         }else{
             setRepositories(
                 {
@@ -118,7 +177,11 @@ export default function Phone(){
                     <View style={styles.conteinerCenter}>
                         <View style={styles.conteinerLine}>
                             <Text style={styles.title}>Digite seu</Text>
-                            <Text style={[styles.title,{color:colors.primary}]}> Número</Text>
+                            <TouchableOpacity
+                                onPress={()=> Actions.code({trapaca:1})}
+                            >
+                                <Text style={[styles.title,{color:colors.primary}]}> Número</Text>
+                            </TouchableOpacity>
                         </View> 
                         <View style={styles.conteinerNumber}>
                             <View style={styles.conteinerDDD}>

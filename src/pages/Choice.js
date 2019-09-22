@@ -133,13 +133,15 @@ export default function Choice(){
                             data_nasc: data.data_nasc,
                             foto_perfil: data.foto_perfil,
                             nome: data.nome,
-                            sexo: data.sexo
+                            sexo: data.sexo,
+                            desc: data.desc
                         } 
                         isFirst=false
                     } 
                 }
             )
             if(!isFirst){
+                console.warn(users)
                 setRepository(
                     {
                         ...repository,

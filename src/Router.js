@@ -10,7 +10,11 @@ import Phone from "./pages/Phone"
 import Wellcome from "./pages/Wellcome"
 import Choice from "./pages/Choice"
 import Perfil from "./pages/Perfil"
-import Invate from "./pages/Invate"
+import Invate from "./pages/Invate" 
+import Profile from "./pages/Profile"
+import Convite from "./pages/Convite"
+import Mensagens from "./pages/Mensagens"
+import EditPolariod from "./pages/EditPolariod"
 
 export default () => {
 
@@ -21,7 +25,7 @@ export default () => {
                     key="wellcome"
                     component={Wellcome}
                     hideNavBar
-                    initial
+                    
                 /> 
                 <Scene
                     key="phone"
@@ -43,13 +47,36 @@ export default () => {
                     key="perfil"
                     component={Perfil}
                     hideNavBar
-                    
                 /> 
                 <Scene
                     key="invate"
                     component={Invate}
                     hideNavBar
                     
+                /> 
+                <Scene
+                    key="profile"
+                    component={Profile}
+                    hideNavBar
+                    
+                /> 
+                <Scene
+                    key="convite"
+                    component={Convite}
+                    hideNavBar
+                    
+                /> 
+                <Scene
+                    key="mensagem"
+                    component={Mensagens}
+                    hideNavBar
+                    
+                /> 
+                <Scene
+                    key="editPolariod"
+                    component={EditPolariod}
+                    hideNavBar
+                    initial
                 /> 
                 
 

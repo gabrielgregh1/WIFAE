@@ -4,6 +4,7 @@ import React, {
     useEffect
 } from "react"
 import {
+    Alert,
     TouchableOpacity,
     ImageBackground,
     StyleSheet,
@@ -12,6 +13,7 @@ import {
 } from "react-native"
 import firebase from "react-native-firebase"
 import { TextField } from "react-native-material-textfield"
+import { Actions } from "react-native-router-flux"
 /*Components*/
 import {ButtonPrimary} from "../components/Buttons"
 /*Styles*/
@@ -24,24 +26,53 @@ import {
     formatPhoneBrazil,
     replaceAll
 } from "../functions"
-import { Actions } from "react-native-router-flux"
 
-export default function Code(props){
+export default function Convite(props){
     const [repositories, setRepositories] = useState({
         button:"Continuar",
         code1:"",
         code2:"",
+        code3:"",
         code4:"",
         code5:"",
         code6:"",
         error_phone:"",
         is_loading:true
-    })
-
-    useEffect(()=>{
-        if(!props.trapaca==1)
-            tryLogin()
+    }) 
+    useEffect(()=>{ 
+        // verifyConvite()
     },[])
+    
+
+    function verifyConvite(){
+        const { code1, code2, code3, code4, code5, code6 } = repositories
+        const code = code1+""+code2+""+code3+""+code4+""+code5+""+code6
+
+        console.warn(code)
+        
+        firebase.database().ref("convites").orderByChild("code").equalTo(code)
+        .once("value", data =>
+            {     
+                try{
+                    const dataJSON =  JSON.parse(JSON.stringify(data) ) 
+                    const valido = dataJSON[1].valido
+                    
+                    if(valido == 1){
+                        console.warn("podemos cadastrar")
+                        Actions.phone({create:1})
+                    }else{
+                        Alert.alert("Convite expirado", "Este convite não possui mais válidade.")
+                    }
+                }catch(err){
+                    Alert.alert("Convite inválido", "Este convite esta incorreto.")
+                    console.warn(err)
+                }
+            }
+        )
+        .catch(err =>{
+            Alert.alert("Falha na conexão", "Verifique sua conexão com a internet.")
+        })
+    }
 
     function tryLogin(){
         firebase.auth()
@@ -62,18 +93,16 @@ export default function Code(props){
             case firebase.auth.PhoneAuthState.AUTO_VERIFIED: 
                 // console.warn('auto verified on android');
                 // console.warn(phoneAuthSnapshot); 
+                
                 setRepositories(
                     {
                         isLoading:true, 
                         button:"Analisando code. . ."
                     }
                 )
-                if(props.create==1){
-                    Actions.perfil({phone:props.phone})
-                }else{
-                    Actions.choice()
-                }
-                // alert("CODE CONFIRMADO")
+                Actions.choice()
+
+                alert("CODE CONFIRMADO")
                 break;
             }
         }, (error) => {
@@ -97,6 +126,26 @@ export default function Code(props){
         });
     }
 
+    function handleEnableButton(){
+        // const {code1, code2, code3, code4, code5, code6} = repositories
+        // if(code1 != "" && code2 != "" && code3 != "" && code4 != "" && code5 != "" && code6 != ""){
+        //     setRepositories(
+        //         {
+        //             ...repositories,
+        //             is_loading:false
+        //         }
+        //     )
+        // }else{
+        //     setRepositories(
+        //         {
+        //             ...repositories,
+        //             is_loading:true
+        //         }
+        //     )
+        // }
+        
+    }
+
     return(
         <View style={styles.conteiner}>
             <ImageBackground 
@@ -111,8 +160,7 @@ export default function Code(props){
                             <TouchableOpacity
                                 onPress={()=> Actions.choice()}
                             > 
-                                <Text style={[styles.title,{color:colors.primary}]}> Código</Text>
-
+                                <Text style={[styles.title,{color:colors.primary}]}> Convite</Text>
                             </TouchableOpacity>
                         </View> 
                         <View style={styles.conteinerNumber}> 
@@ -125,7 +173,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}}
-                                    onChangeText={value => setRepositories({...repositories, code1:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code1:value}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -142,7 +190,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}}
-                                    onChangeText={value => setRepositories({...repositories, code2:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code2:value}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -159,7 +207,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}}
-                                    onChangeText={value => setRepositories({...repositories, code4:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code3:value}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -176,7 +224,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}}
-                                    onChangeText={value => setRepositories({...repositories, code4:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code4:value}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -193,7 +241,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}} 
-                                    onChangeText={value => setRepositories({...repositories, code5:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code5:value}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -210,7 +258,7 @@ export default function Code(props){
                                     maxLength={1}
                                     autoCapitalize='none'                        
                                     labelTextStyle={{fontFamily:fonts.medium}}
-                                    onChangeText={value => setRepositories({...repositories, code6:value})}
+                                    onChangeText={value => {setRepositories({...repositories, code6:value, is_loading:false}); handleEnableButton()}}
                                     style={{fontFamily:fonts.medium, color:colors.primary}}
                                     textColor={colors.secundary}
                                     tintColor={colors.primary}
@@ -220,7 +268,7 @@ export default function Code(props){
                             </View>
                         </View>
                         <ButtonPrimary
-                            // onPress={() => sendMessage()}
+                            onPress={() => verifyConvite()}
                             isLoading={repositories.is_loading}
                             label={repositories.button}
                         />

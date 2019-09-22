@@ -13,8 +13,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage; // <-- Add this line
 // import io.invertase.firebase.firestore.RNFirebaseFirestorePackage; // <-- Add this line
-import io.invertase.firebase.database.RNFirebaseDatabasePackage; // <-- Add this line
-
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;// <-- Add this line
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -31,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new RNFirebaseAuthPackage());
       packages.add(new RNFirebaseDatabasePackage());
+      packages.add(new RNFirebaseStoragePackage());
       
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());

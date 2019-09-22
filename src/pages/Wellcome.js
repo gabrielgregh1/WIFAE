@@ -28,6 +28,9 @@ export default function Wellcome(){
     useEffect(()=>{
         StatusBar.setBackgroundColor("rgba(0,0,0,.9)") 
         StatusBar.setTranslucent(false)
+
+        
+
     },[])
 
     return(
@@ -51,11 +54,14 @@ export default function Wellcome(){
                         </View>
                         <ButtonOutline
                             label="Tenho convite"
+                            onPress={() => Actions.convite()}
+
+                            
                         />
                         <View style={styles.space}/>
                         <ButtonPrimary
                             label="Entrar"
-                            onPress={() => Actions.phone()}
+                            onPress={() => Actions.phone({create:0})}
                         />
                     </View>
                     <View style={styles.conteinerTermos}>
