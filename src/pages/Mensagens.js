@@ -8,8 +8,10 @@ import {
     FlatList,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from "react-native"
+import firebase from "react-native-firebase"
 /*Styles*/
 import colors from "../styles/colors"
 /*Components*/
@@ -19,37 +21,134 @@ import fonts from "../styles/fonts"
 /*Images*/
 import background from "../../assets/image/background.png"
 import perfil from "../../assets/image/perfil.png"
+import { Actions } from "react-native-router-flux"
 
 export default function Mensagens(){
     
     const [repository, setRepository] = useState(
         {
             data:[
-                {
-                    key:"1"
-                },
-                {
-                    key:"2"
-                },
-                {
-                    key:"3"
-                },
-                {
-                    key:"4"
-                },
-                {
-                    key:"5"
-                },
-                {
-                    key:"6"
-                },
-                {
-                    key:"7"
-                }
-            ]
+                // {
+                //     key:"1"
+                // },
+                // {
+                //     key:"2"
+                // },
+                // {
+                //     key:"3"
+                // },
+                // {
+                //     key:"4"
+                // },
+                // {
+                //     key:"5"
+                // },
+                // {
+                //     key:"6"
+                // },
+                // {
+                //     key:"7"
+                // }
+            ],
+            dataMsg:[]
         }
     )
+    var mensagnsCompletas = []
+    useEffect(()=>{
+        carregarCombinacoes()
 
+        setTimeout(()=>{
+            setRepository({...repository,data:mensagnsCompletas })
+        },5000)
+    },[])
+
+    function carregarCombinacoes(){ 
+        var data = []
+        firebase.database().ref('likes').orderByChild("escolhedor").equalTo("+5519997335710")
+        .once("value", escolhedor =>
+            {
+                firebase.database().ref('likes').orderByChild("escolhido").equalTo("+5519997335710")
+                .once("value", escolhido =>
+                    { 
+
+                        console.warn(JSON.stringify(escolhedor))
+                        escolhido.forEach(itemEscolhi => 
+                            {
+                                itemEscolhido = JSON.parse(JSON.stringify(itemEscolhi))
+                                if(itemEscolhido.like == 1){
+                                    cadastrado = false
+
+                                    console.warn("PASSOU=>>>>>"+escolhedor)
+
+                                    escolhedor.forEach(itemEscolhe => 
+                                        {
+                                            itemEscolhedor = JSON.parse(JSON.stringify(itemEscolhe))
+                                            // console.warn(itemEscolhedor.like+" == 1 && "+!cadastrado+
+                                            //     "&& "+itemEscolhedor.escolhido+" == "+itemEscolhido.escolhedor)
+
+                                            if(itemEscolhedor.like == 1 && !cadastrado 
+                                                && itemEscolhedor.escolhido == itemEscolhido.escolhedor){
+                                                cadastrado = true
+                                                podeCadastrar = true
+                                                data.forEach(element => {
+                                                    console.warn("ASSSSSIM+>"+element)
+                                                    if(element == itemEscolhedor.escolhido){
+                                                        podeCadastrar=false
+                                                    }
+                                                }); 
+                                                    
+
+                                                if(podeCadastrar){
+                                                    data.push(itemEscolhedor.escolhido)
+                                                    console.warn("COMBINOU: "+(JSON.stringify(itemEscolhedor.escolhido)))
+                                                    
+                                                     
+        
+
+                                                } 
+                                            }
+                                        }
+                                    )
+                                    
+                                }
+                            }
+                        )
+                        data.forEach(element1 => 
+                            {
+                                console.warn(element1)
+                                firebase.database().ref('users').orderByChild("tel").equalTo(element1)
+                                .once("value", users =>
+                                        { 
+                                        console.warn(users)
+                                        limit=0
+                                        users.forEach(element => 
+                                            {
+                                                if(limit==0){
+                                                    limit++
+                                                    itemUsers = JSON.parse(JSON.stringify(element))
+                                                    
+                                                    dados = {
+                                                        key:itemUsers.tel,
+                                                        tel:itemUsers.tel,
+                                                        nome:itemUsers.nome,
+                                                        foto_perfil:itemUsers.foto_perfil
+                                                    } 
+
+                                                    mensagnsCompletas.push(dados)
+                                                    
+                                                   
+                                                }
+                                            }
+                                        );
+                                    }
+                                )
+                            }
+                        )
+                    }      
+                )
+            }
+        )
+    }
 
     return(
         <View style={styles.conteiner}>
@@ -72,31 +171,35 @@ export default function Mensagens(){
 
                 </View>
                 <View style={{flex:1}}>
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={repository.data}
-                    // keyExtractor={(item, index) => item.id.toString()}
-                    renderItem={({item}) =>
-                    <View style={styles.conteinerMessage}>
-                        <View style={styles.conteinerImage}>
-                            <Image
-                                source={perfil}
-                                style={styles.imagePerfil}
-                            />
-                        </View>
-                        <View style={styles.conteinerBlock}/>
-                        <View style={styles.conteinerNome}>
-                            <View style={styles.conteinerText}>
-                                <Text style={styles.nome}>Ricardo Nunes</Text>
-                                <Text style={styles.mensagem}>manda foto de agora gata</Text>
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={repository.data}
+                        // keyExtractor={(item, index) => item.id.toString()}
+                        renderItem={({item}) =>
+                        <TouchableOpacity
+                            onPress={()=>Actions.inChat({nome:item.nome, imagem:`https://firebasestorage.googleapis.com/v0/b/wifae-1e225.appspot.com/o/${item.foto_perfil}.png?alt=media&token=86b0facb-168e-45ed-a183-eaee44fcc768`})}
+                        >
+                            <View style={styles.conteinerMessage}>
+                                <View style={styles.conteinerImage}>
+                                    <Image 
+                                        source={{uri:`https://firebasestorage.googleapis.com/v0/b/wifae-1e225.appspot.com/o/${item.foto_perfil}.png?alt=media&token=86b0facb-168e-45ed-a183-eaee44fcc768`}}
+                                        style={styles.imagePerfil}
+                                    />
+                                </View>
+                                <View style={styles.conteinerBlock}/>
+                                <View style={styles.conteinerNome}>
+                                    <View style={styles.conteinerText}>
+                                        <Text style={styles.nome}>{item.nome}</Text>
+                                        <Text style={styles.mensagem}>Disponivel</Text>
+                                    </View>
+                                    <View style={styles.qtdMensagens}>
+                                        <Text style={styles.labelMenssage}>1</Text> 
+                                    </View>
+                                </View>
                             </View>
-                            <View style={styles.qtdMensagens}>
-                                <Text style={styles.labelMenssage}>1</Text> 
-                            </View>
-                        </View>
-                    </View>
-                 }
-                />             
+                        </TouchableOpacity>
+                    }
+                    />             
                     
                 </View>
             </View>
@@ -188,6 +291,7 @@ const styles = StyleSheet.create(
             marginBottom:"auto"
         },
         imagePerfil:{
+            flex:1,
             borderRadius:100,
             height:"100%",
             width:"100%"

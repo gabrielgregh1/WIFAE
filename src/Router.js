@@ -15,6 +15,7 @@ import Profile from "./pages/Profile"
 import Convite from "./pages/Convite"
 import Mensagens from "./pages/Mensagens"
 import EditPolariod from "./pages/EditPolariod"
+import InChat from "./pages/InChat"
 
 export default () => {
 
@@ -41,7 +42,7 @@ export default () => {
                     key="choice"
                     component={Choice}
                     hideNavBar
-                    
+                    initial
                 /> 
                 <Scene
                     key="perfil"
@@ -76,9 +77,15 @@ export default () => {
                     key="editPolariod"
                     component={EditPolariod}
                     hideNavBar
-                    initial
+                    
                 /> 
                 
+                <Scene
+                    key="inChat"
+                    component={InChat}
+                    hideNavBar
+                    // 
+                /> 
 
             </Scene>
         </Router>

@@ -12,6 +12,8 @@ import {
     View
 } from "react-native"
 import { createIconSetFromIcoMoon } from "react-native-vector-icons"
+import { TextField } from "react-native-material-textfield"
+import ImagePicker from "react-native-image-crop-picker"
 import IconIon from "react-native-vector-icons/Ionicons"
 
 import firebase  from "react-native-firebase"
@@ -61,11 +63,14 @@ const Box = posed.View({
     }
 })
 
+
+
 export default function Choice(){
     const [repository, setRepository] = useState(
         {
             animate:"neutral",
             isLoading:false,
+            isEdit:false,
             users:[],
             userExibido:{
                 curso: null,
@@ -73,13 +78,63 @@ export default function Choice(){
                 foto_perfil: null,
                 nome: null,
                 sexo: null
-            }
+            }, 
+            foto:"",
+            desc:""
         }
     )
 
-    useEffect(()=>{
-
+    useEffect(()=>{ 
     },[])
+
+
+    function uploadImage(){
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+            hideBottomControls:true,
+            // useFrontCamera:true,
+            cropperToolbarTitle:"Edite sua foto",
+            includeBase64:true,
+            forceJpg:true,
+            enableRotationGesture:false
+        }).then(image => {
+            console.log(image); 
+            const ext = image.path.split('.').pop(); // Extract image extension
+            const filename = `${ "+5519997335710/perfil"}.${ext}`; // Generate unique name
+            firebase
+                .storage()
+                .ref(`${filename}`)
+                .putFile(image.path)  
+
+                setRepository(
+                    {
+                        ...repository,
+                        foto:image.path
+                    }
+                )
+                console.warn(image.data)
+        }); 
+    } 
+
+    // function send(){  
+    //         firebase.database().ref('users').orderByChild("tel").equalTo("+5519997335710").set({
+    //             desc:repository.desc
+    //         }).then((data)=>{
+    //             //success callback
+    //             // Actions.choice()
+    //             // console.warn('data ' , data)
+    //             // setRepositories({...repositories,button:"Continuar"})
+    //             alert("SALVOU")
+    //         }).catch((error)=>{
+    //             //error callback
+    //             Alert.alert("Falha na conexão", "Verifique seu acesso a internet.")
+           
+    //         })
+      
+    // }
+
 
     return(
         <View style={styles.conteiner}>
@@ -94,10 +149,10 @@ export default function Choice(){
                                     name="ios-arrow-back"
                                     size={30}
                                 />
-                            </View>
+                        </View>
                         <View style={styles.conteinerPhoto}>
-                            <ImageBackground
-                                source={perfil}
+                            <ImageBackground  
+                                source={{uri:repository.foto!= "" ? repository.foto:`https://firebasestorage.googleapis.com/v0/b/wifae-1e225.appspot.com/o/%2B${"5519997335710"}%2Fperfil.jpg?alt=media&token=99d3244e-aa34-4613-85fa-252e9701517b`}}
                                 style={styles.conteinerImage}
                             >
                                 <View style={styles.conteinerVotos}>
@@ -117,16 +172,54 @@ export default function Choice(){
                                 style={{marginTop:"auto", marginBottom:"auto"}}
                             />
                     </View>
-                    <View style={styles.conteinerLabel}>
-                        <Image
-                            source={polaroid} 
-                            style={styles.images}
-                        />
-                        <Image
-                            source={t} 
-                            style={styles.images}
-                        /> 
-                    </View>
+                    {!repository.isEdit ? 
+                        <View style={styles.conteinerLabel}>
+                            <TouchableOpacity
+                                onPress={()=>  uploadImage()}
+                            >
+                                <Image
+                                    source={polaroid} 
+                                    style={styles.images}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={()=>  setRepository({...repository, isEdit:true})}
+                            >
+                            <Image
+                                source={t} 
+                                style={styles.images}
+                            /> 
+                            </TouchableOpacity>
+                        </View>
+                        :  
+                            <View style={{width:"100%", position:"relative", top:-30, flexDirection:"row"}}>
+                                <View style={{width:"90%"}}>
+                                    <TextField
+                                        fontSize={16} 
+                                        label=""
+                                        placeholder="escreva sua mensagem ..."
+                                        autoCapitalize='none'                        
+                                        labelTextStyle={{fontFamily:fonts.medium}}
+                                        onChangeText={value => setRepository({...repository, desc:value})}
+                                        style={{fontFamily:fonts.medium, color:"#000"}}
+                                        textColor={"#000"}
+                                        tintColor={"#000"}
+                                        baseColor={"#000"}
+                                        value={repository.desc}
+                                    />
+                                </View> 
+                                <TouchableOpacity
+                                    // onPress={() => send()}
+                                >
+                                    <Image
+                                        source={t} 
+                                        style={[styles.imageT,{marginTop:"auto",marginBottom:10}]}
+                                    /> 
+                                </TouchableOpacity>
+
+                            </View> 
+                    }
+
                 </Box>
             </View>
         </View>
@@ -205,5 +298,9 @@ const styles = StyleSheet.create({
     images:{
         height:40,
         width:40
+    },
+    imageT:{
+        height:20,
+        width:20
     }
 })
