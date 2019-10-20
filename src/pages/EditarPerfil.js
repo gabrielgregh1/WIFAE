@@ -32,6 +32,7 @@ const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
 import backIcon from "../../assets/image/back-icon.png"
 import editIcon from "../../assets/image/edit-icon.png"
 
+
 export default function EditarPerfil() {
 
 
@@ -51,7 +52,7 @@ export default function EditarPerfil() {
 
     function load() {
 
-        firebase.database().ref("users").orderByChild("tel").equalTo("+5519997335710").once("value", users => {
+        firebase.database().ref("users").orderByChild("tel").equalTo("+5519989383632").once("value", users => {
             users.forEach(function (childUser) {
 
                 setRepositories({
@@ -95,10 +96,16 @@ export default function EditarPerfil() {
         <View style={styles.conteiner}>
 
             <View style={styles.header}>
-                <Image
-                    source={backIcon}
-                    style={styles.backIcone}
-                ></Image>
+                <TouchableOpacity
+                    onPress={() => {
+                        Actions.pop()
+                    }}
+                >
+                    <Image
+                        source={backIcon}
+                        style={styles.backIcone}
+                    ></Image>
+                </TouchableOpacity>
                 <Image
                     source={editIcon}
                     style={styles.editIcone}
@@ -124,7 +131,7 @@ export default function EditarPerfil() {
                             tintColor={colors.primary}
                             baseColor={colors.primary}
                             value={repositories.childData.desc}
-                            onChangeText={(value)=>
+                            onChangeText={(value) =>
                                 setRepositories({
                                     ...repositories,
                                     childData: {
@@ -150,7 +157,7 @@ export default function EditarPerfil() {
                             tintColor={colors.primary}
                             baseColor={colors.primary}
                             value={repositories.childData.curso}
-                            onChangeText={(value)=>
+                            onChangeText={(value) =>
                                 setRepositories({
                                     ...repositories,
                                     childData: {

@@ -18,11 +18,12 @@ import perfil from "../../assets/image/perfil.png"
 import fonts from "../styles/fonts"
 /*Functions and Constants*/
 import icoMoonConfig from "../../selection.json"
- 
+import { Actions } from "react-native-router-flux"
+
 const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
 
-export default function Profile(){
-    return(
+export default function Profile() {
+    return (
         <View style={styles.conteiner}>
             <HeaderPrim
                 page="profile"
@@ -30,10 +31,10 @@ export default function Profile(){
             <ScrollView>
                 <View style={styles.conteinerBack}>
                     <View style={styles.photo}>
-                            <Image
-                                source={perfil}
-                                style={styles.conteinerImage}>   
-                            </Image>
+                        <Image
+                            source={perfil}
+                            style={styles.conteinerImage}>
+                        </Image>
                     </View>
 
                     <View style={styles.conteinerLabel}>
@@ -50,19 +51,24 @@ export default function Profile(){
                             <TouchableOpacity>
                                 <View>
                                     <Icon
-                                        name={"info"} 
-                                        size={58} 
-                                        color="#B3B3B3" 
+                                        name={"info"}
+                                        size={58}
+                                        color="#B3B3B3"
                                     />
                                 </View>
                             </TouchableOpacity>
-                            
-                            <TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={() => {
+
+                                    Actions.editarPerfil()
+                                }}
+                            >
                                 <View>
                                     <Icon
-                                        name={"info"} 
-                                        size={58} 
-                                        color="#B3B3B3" 
+                                        name={"info"}
+                                        size={58}
+                                        color="#B3B3B3"
                                     />
                                 </View>
                             </TouchableOpacity>
@@ -75,61 +81,61 @@ export default function Profile(){
 }
 
 const styles = StyleSheet.create({
-    conteiner:{
-        height:"100%",
-        width:"100%",
-        backgroundColor:"#000",
+    conteiner: {
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#000",
     },
-    conteinerImage:{
-        height:"100%",
-        width:"100%",
-        backgroundColor:"blue",
-        borderRadius:130
+    conteinerImage: {
+        height: "100%",
+        width: "100%",
+        backgroundColor: "blue",
+        borderRadius: 130
     },
-    conteinerBack:{
-        height:"100%",
-        width:"100%",
-        backgroundColor:"#000",
-        padding:15
+    conteinerBack: {
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#000",
+        padding: 15
     },
-    conteinerButtons:{
-       flexDirection:"row", 
-       justifyContent:"space-between",
+    conteinerButtons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
-    conteinerBottom:{
-        paddingRight:"20%",
-        paddingLeft:"20%",
+    conteinerBottom: {
+        paddingRight: "20%",
+        paddingLeft: "20%",
         // backgroundColor: colors.primary,
 
     },
-    conteinerLabel:{
-        paddingTop:15,
+    conteinerLabel: {
+        paddingTop: 15,
     },
-    conteinerText:{
-        paddingRight:"30%",
-        paddingLeft:"30%",
+    conteinerText: {
+        paddingRight: "30%",
+        paddingLeft: "30%",
         paddingTop: "5%",
         paddingBottom: "40%",
     },
-    photo:{
-        alignItems:"center",
-        marginTop:40,
-        marginLeft:"30%",
+    photo: {
+        alignItems: "center",
+        marginTop: 40,
+        marginLeft: "30%",
         width: 130,
         height: 130,
-        borderRadius: 130/2,
+        borderRadius: 130 / 2,
         backgroundColor: 'white',
     },
-    label1:{
-        color:"#fff",
-        fontFamily:fonts.regular,
-        fontSize:20,
-        marginLeft:"27%",
+    label1: {
+        color: "#fff",
+        fontFamily: fonts.regular,
+        fontSize: 20,
+        marginLeft: "27%",
     },
-    label2:{
-        color:"#fff",
-        fontFamily:fonts.regular,
-        fontSize:20,
-        marginLeft:"35%",
+    label2: {
+        color: "#fff",
+        fontFamily: fonts.regular,
+        fontSize: 20,
+        marginLeft: "35%",
     }
 })
