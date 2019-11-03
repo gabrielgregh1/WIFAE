@@ -20,6 +20,7 @@ import {
 import { TextField } from "react-native-material-textfield"
 /*Components*/
 import { ButtonPrimary } from "../components/Buttons"
+import DadosInModal from "../pages/DadosInModal"
 /*Styles*/
 import colors from "../styles/colors"
 import fonts from "../styles/fonts"
@@ -35,11 +36,42 @@ import editIcon from "../../assets/image/edit-icon.png"
 
 export default function EditarPerfil() {
 
-
-
     const [repositories, setRepositories] = useState({
         childKey: "",
-        childData: ""
+        childData: "",
+        isVisible: false,
+        dadosLista:[
+            {
+                key:'1',
+                dados:'Estágio',
+                check:0
+            },
+            {
+                key:'2',
+                dados:'Festas',
+                check:0
+            },
+            {
+                key:'3',
+                dados:'Engenharia',
+                check:0
+            },
+            {
+                key:'4',
+                dados:'Alcool',
+                check:0
+            },
+            {
+                key:'5',
+                dados:'Administração',
+                check:0
+            },
+            {
+                key:'6',
+                dados:'Medicina',
+                check:0
+            }
+        ]
     })
 
     useEffect(() => {
@@ -90,6 +122,31 @@ export default function EditarPerfil() {
 
     }
 
+    function updateEscolha(keySelec){
+        let dadosLista = repositories.dadosLista
+
+        dadosLista = dadosLista.map((value, key) => 
+            {
+                if(value.key == keySelec){
+                    return{
+                        key:value.key,
+                        dados:value.dados,
+                        check:!value.check
+                    }
+                }else{
+                    return value
+                }
+            }
+        )
+
+        setRepositories(
+            {
+                ...repositories,
+                dadosLista, 
+                isVisible:true
+            }
+        )
+    }
 
 
     return (
@@ -169,6 +226,18 @@ export default function EditarPerfil() {
                         />
                     </View>
 
+
+                    <View style={styles.viewCampos}>
+                        <Text style={styles.textoItens}>Interesses</Text>
+                        <TouchableOpacity
+                            onPress={() => setRepositories({...repositories, isVisible:true})}
+                        >
+                            <View style={styles.conteinerInteresses}>
+                                <Text style={styles.textLabel}>Gerenciar Interesses</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={styles.viewSexo}>
                         <Text style={styles.textoItens}>Sexo:</Text>
                         <View style={styles.conteinerButton}>
@@ -241,7 +310,12 @@ export default function EditarPerfil() {
                     />
                 </View>
             </ScrollView>
-
+            <DadosInModal
+                isVisible={repositories.isVisible}
+                onClose={() => setRepositories({...repositories, isVisible:false})}
+                updateEscolha={updateEscolha}
+                dadosLista={repositories.dadosLista}
+            />
         </View >
     )
 
@@ -346,9 +420,22 @@ const styles = StyleSheet.create({
         height: 32,
         marginTop: 12,
         marginLeft: 35
-
     },
     viewCampos: {
         marginTop: 50
+    },
+    conteinerInteresses:{
+        height:50,
+        width:'100%',
+        borderRadius:4,
+        backgroundColor:'#FFF'
+    },
+    textLabel:{
+        fontSize:16,
+        fontFamily:fonts.regular,
+        color:'#000',
+        marginBottom:'auto',
+        marginTop:'auto',
+        marginLeft:15
     }
 })

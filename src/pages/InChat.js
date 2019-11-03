@@ -9,7 +9,10 @@ import {
     TextInput,
     View
 } from "react-native"
-import { createIconSetFromIcoMoon } from "react-native-vector-icons"
+// import { createIconSetFromIcoMoon } from "react-native-vector-icons"
+import Icon from "react-native-vector-icons/Ionicons"
+import IconCom from "react-native-vector-icons/MaterialCommunityIcons"
+
 // import { TextField } from "react-native-material-textfield"
 /*Components*/
 // import { HeaderPrim } from "../components/Header"
@@ -25,7 +28,7 @@ import fonts from "../styles/fonts"
 import icoMoonConfig from "../../selection.json"
 import { Actions } from "react-native-router-flux"
  
-const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
+// const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
 
 export default function InChat(props){
     const [value, onChangeText] = React.useState('');
@@ -35,21 +38,26 @@ export default function InChat(props){
                 <View style={styles.conteiner}>
                     
                     <View style={styles.conteinerVoltar}>
-                        <TouchableOpacity
-                            onPress={() => Actions.pop()}
-                        >
-                            <View 
-                                style={styles.circle}>
-                                <ImageBackground
-                                    source={voltar}
-                                    style={styles.image}
-                                    tintColor="#FFEFEF"
-                                ></ImageBackground> 
-                            </View>
-                        </TouchableOpacity> 
-                    </View>
-
-                    <View style={styles.button}>
+                        <View style={{marginTop:'3%'}}>
+                            <TouchableOpacity
+                                onPress={() => Actions.pop()}
+                            >
+                                <Icon
+                                    name={`ios-arrow-back`}
+                                    size={30}
+                                    color={`#FFF`}
+                                />
+                                    {/* <View 
+                                        style={styles.circle}>
+                                        <ImageBackground
+                                            source={voltar}
+                                            style={styles.image}
+                                            tintColor="#FFEFEF"
+                                        ></ImageBackground> 
+                                    </View>  */}
+                            </TouchableOpacity> 
+                        </View>
+                        <View style={styles.button}>
                             <View
                                 style={styles.circleFoto}>
                                     <Image
@@ -57,22 +65,20 @@ export default function InChat(props){
                                         style={styles.foto}
                                     ></Image>
                             </View>
+                        </View> 
+                            <Text style={styles.label}>{props.nome}</Text> 
                     </View>
 
-                    <View style={styles.conteinerLabel}>
-                        <Text style={styles.label}>{props.nome}</Text>
-                    </View>
+                  
 
                     <View style={styles.conteinerOp}>
                         <TouchableOpacity>
-                            <View
-                                style={styles.circle}>
-                                <ImageBackground
-                                    source={more}
-                                    style={styles.image}
-                                    tintColor="#FFEFEF"
-                                ></ImageBackground>  
-                            </View>
+                           
+                        <IconCom
+                                name={`dots-vertical`}
+                                size={30}
+                                color={`#FFF`}
+                            />
                         </TouchableOpacity>
                     </View>
                 </View>  
@@ -99,7 +105,9 @@ export default function InChat(props){
                         onChangeText={text => onChangeText(text)}
                         value={value}
                     />
-                        <TouchableOpacity>
+                            
+                        <TouchableOpacity 
+                        >
                             <View
                                 style={styles.circleSend}>
                                 <ImageBackground
@@ -108,7 +116,7 @@ export default function InChat(props){
                                     tintColor="#B34B67"
                                 ></ImageBackground>  
                             </View>
-                        </TouchableOpacity> 
+                        </TouchableOpacity>  
                 </View>
             </View>
         </View>
@@ -121,21 +129,20 @@ const styles = StyleSheet.create({
         flexDirection:"row", 
         paddingTop:10,
         paddingBottom:10,
-        width:"100%"
-    },
-    conteinerLabel:{
-        paddingTop:5,
-    },
+        width:"100%",
+        justifyContent:'space-between'
+    }, 
     conteinerVoltar:{
         height:"100%",
         marginLeft:"5%",
-        marginTop:5
+        marginTop:5,
+        flexDirection:"row",
     },
     conteinerOp:{
-        height:"80%",
-        marginRight:"5%",
-        marginLeft:"20%",
-        marginTop:5
+        // height:"80%",
+        // marginRight:"5%",
+        marginTop:"3%",
+        // marginTop:5
     },
     conteinerBack:{
         height:"100%",
@@ -159,8 +166,10 @@ const styles = StyleSheet.create({
     },
     button:{
         height:"100%",
-        marginLeft:"5%",
-        marginRight:"3%"
+        marginLeft:"7%",
+        marginRight:"3%",
+        marginTop:'auto',
+        marginBottom:'auto'
     },
     foto:{
         width: 40,
@@ -208,6 +217,8 @@ const styles = StyleSheet.create({
         color:"#fff",
         fontFamily:fonts.regular,
         fontSize:20,
-        marginLeft:"5%"
+        marginLeft:"5%",
+        marginBottom:'auto',
+        marginTop:'3%'
     }
 })

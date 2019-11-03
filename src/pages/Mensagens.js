@@ -102,9 +102,6 @@ export default function Mensagens(){
                                                     data.push(itemEscolhedor.escolhido)
                                                     console.warn("COMBINOU: "+(JSON.stringify(itemEscolhedor.escolhido)))
                                                     
-                                                     
-        
-
                                                 } 
                                             }
                                         }
@@ -207,8 +204,6 @@ export default function Mensagens(){
     )
 }
 
-// <Text>Social</Text>
-// <View style={styles.block}/>
 const styles = StyleSheet.create(
     {
         conteiner:{

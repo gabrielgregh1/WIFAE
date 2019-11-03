@@ -102,7 +102,7 @@ export default function Choice(){
         }).then(image => {
             console.log(image); 
             const ext = image.path.split('.').pop(); // Extract image extension
-            const filename = `${ "+5519997335710/perfil"}.${ext}`; // Generate unique name
+            const filename = `${"+553591184274/perfil"}.${ext}`; // Generate unique name
             firebase
                 .storage()
                 .ref(`${filename}`)
@@ -152,7 +152,7 @@ export default function Choice(){
                         </View>
                         <View style={styles.conteinerPhoto}>
                             <ImageBackground  
-                                source={{uri:repository.foto!= "" ? repository.foto:`https://firebasestorage.googleapis.com/v0/b/wifae-1e225.appspot.com/o/%2B${"5519997335710"}%2Fperfil.jpg?alt=media&token=99d3244e-aa34-4613-85fa-252e9701517b`}}
+                                source={{uri:repository.foto!= "" ? repository.foto:`https://firebasestorage.googleapis.com/v0/b/wifae-1e225.appspot.com/o/%2B${"553591184274"}%2Fperfil.jpg?alt=media&token=99d3244e-aa34-4613-85fa-252e9701517b`}}
                                 style={styles.conteinerImage}
                             >
                                 <View style={styles.conteinerVotos}>

@@ -12,7 +12,10 @@ import {
 } from "react-native"
 import { createIconSetFromIcoMoon } from "react-native-vector-icons"
 import IconIon from "react-native-vector-icons/Ionicons"
+import IconMat from "react-native-vector-icons/MaterialCommunityIcons"
 import IconFont from "react-native-vector-icons/FontAwesome"
+import IconFont5 from "react-native-vector-icons/FontAwesome5"
+import IconFeat from "react-native-vector-icons/Feather"
 
 /*Styles*/
 import colors from "../styles/colors"
@@ -30,16 +33,17 @@ export function HeaderPrim(props){
     },[])
 
     return(
-        <View style={stylesPrim.conteiner}>
+        <View style={stylesPrim.conteiner1}>
             
                 <View style={stylesPrim.button}>
                     <TouchableOpacity
                         onPress={()=> props.page != "profile" && Actions.profile()}
+                        style={{marginTop:'auto', marginBottom:'auto'}}
                     >
-                        <Icon
-                            name={"profile"} 
-                            size={32} 
-                            color="#B3B3B3"
+                        <IconFont5
+                            name={"user-alt"} 
+                            size={23} 
+                            color={colors.primary}
                             style={stylesPrim.image}
                         />
                     </TouchableOpacity>
@@ -48,11 +52,13 @@ export function HeaderPrim(props){
                 <View style={stylesPrim.button}>
                     <TouchableOpacity
                         onPress={()=> props.page != "choice" && Actions.choice()}
+                        style={{marginTop:'auto', marginBottom:'auto'}}
                     >
-                        <Icon
+                        <IconFeat
                             name={"wifi"} 
-                            size={42} 
-                            color="#B3B3B3"
+                            size={30} 
+                            color={colors.primary}
+                            style={stylesPrim.image}
                         />
                     </TouchableOpacity>
                 </View>
@@ -61,11 +67,12 @@ export function HeaderPrim(props){
                 <View style={stylesPrim.button}>
                     <TouchableOpacity
                         onPress={()=> props.page != "mensagem" && Actions.mensagem()}
+                        style={{marginTop:'auto', marginBottom:'auto'}}
                     >
-                        <Icon
-                            name={"chat"} 
-                            size={32} 
-                            color="#B3B3B3"
+                        <IconMat
+                            name={"chat-processing"} 
+                            size={23} 
+                            color={colors.primary}
                             style={stylesPrim.image}
                         />
                     </TouchableOpacity>
@@ -111,6 +118,44 @@ export function HeaderBack(props){
     )
 }
 
+
+export function HeaderModal(props){
+
+    useEffect(()=>{
+        StatusBar.setBackgroundColor(colors.primary)
+    },[])
+
+    return(
+        <View style={stylesPrim.conteiner}>
+            <View style={[stylesBack.button, {paddingRight:5}]}>
+                <TouchableOpacity
+                    onPress={props.onPress}
+                >
+                   <IconIon
+                        name={"md-close"} 
+                        size={32} 
+                        color="#FFF"
+                        style={stylesBack.image}
+                    />
+                </TouchableOpacity>
+                
+            </View>
+            {/* <View style={stylesBack.button}>
+                <TouchableOpacity>
+                    <IconFont
+                        name={"photo"} 
+                        size={20} 
+                        color="#FFF"
+                        style={{paddingTop:10}}
+                    />
+                </TouchableOpacity>
+            </View>
+                */}
+            <Text style={stylesBack.title}>{props.title}</Text>  
+        </View>
+    )
+}
+
 const stylesPrim = StyleSheet.create({
     conteiner:{
         backgroundColor:colors.primary,
@@ -119,14 +164,28 @@ const stylesPrim = StyleSheet.create({
         paddingBottom:10,
         width:"100%"
     },
+    conteiner1:{
+        backgroundColor:colors.primary,
+        flexDirection:"row", 
+        justifyContent:'space-between',
+        paddingTop:10,
+        paddingBottom:10,
+        width:"100%",
+        paddingRight:"10%",
+        paddingLeft:"10%"
+    },
     button:{
-        alignItems:"center",
-        height:"100%",
-        width:"33%"
+        alignItems:"center",  
+        borderRadius:100,
+        backgroundColor:"#FFF", 
+        width:42,
+        height:42,
+        
     },
     image:{
-        paddingTop:5,
-    }
+        marginTop:'auto',
+        // marginBottom:'auto'
+    },
 })
 
 const stylesBack = StyleSheet.create({

@@ -13,6 +13,7 @@ import {
     View
 } from "react-native"
 import { createIconSetFromIcoMoon } from "react-native-vector-icons"
+import IconIonic from "react-native-vector-icons/Ionicons"
 import Geolocation  from "@react-native-community/geolocation"
 import firebase  from "react-native-firebase"
 import posed from "react-native-pose"
@@ -26,6 +27,7 @@ import fonts from "../styles/fonts"
 /*Functions and Constants*/
 import icoMoonConfig from "../../selection.json"
 import colors from "../styles/colors"
+import { Colors } from "react-native/Libraries/NewAppScreen"
   
 
 const Icon = createIconSetFromIcoMoon(icoMoonConfig, "icomoon", "icomoon.ttf")
@@ -67,7 +69,7 @@ export default function Choice(){
             animate:"neutral",
             isLoading:false,
             area_atuacao:false,
-            isInfoAtivo:true,
+            isInfoAtivo:false,
             users:[],
             userExibido:{
                 curso: null,
@@ -292,7 +294,7 @@ export default function Choice(){
                                             <Icon
                                                 name={"info"} 
                                                 size={20} 
-                                                color="#B3B3B3" 
+                                                color={colors.primary} 
                                             />
                                         </TouchableOpacity>
                                     </View>
@@ -308,10 +310,10 @@ export default function Choice(){
                                     <TouchableOpacity
                                         onPress={()=>setRepository({...repository, isInfoAtivo:!repository.isInfoAtivo})}
                                     >
-                                        <Icon
-                                            name={"info"} 
-                                            size={20} 
-                                            color="#B3B3B3" 
+                                        <IconIonic
+                                            name={"ios-information"} 
+                                            size={18} 
+                                            color={"#fff"} 
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -333,23 +335,24 @@ export default function Choice(){
                         <TouchableOpacity
                             onPress={()=>  changeAnimate("refuse")}
                         >
-                            <View>
-                                <Icon
-                                    name={"info"} 
-                                    size={58} 
-                                    color="#B3B3B3" 
+                            <View style={{height:58, width:58, backgroundColor:colors.primary, alignItems:'center', borderRadius:100}}>
+                                <IconIonic
+                                    name={"md-close"} 
+                                    size={40} 
+                                    color="#FFF" 
+                                    style={{marginTop:'auto', marginBottom:'auto'}}
                                 />
                             </View>
                         </TouchableOpacity>
-                        
                         <TouchableOpacity
                             onPress={()=>  changeAnimate("accept")}
                         >
-                            <View>
-                                <Icon
-                                    name={"info"} 
-                                    size={58} 
-                                    color="#B3B3B3" 
+                            <View style={{height:58, width:58, backgroundColor:colors.primary, alignItems:'center', borderRadius:100}}>
+                                <IconIonic
+                                    name={"ios-heart"} 
+                                    size={40} 
+                                    color="#FFF" 
+                                    style={{marginTop:'auto', marginBottom:'auto'}}
                                 />
                             </View>
                         </TouchableOpacity>
@@ -389,6 +392,9 @@ const styles = StyleSheet.create({
         marginLeft:"auto",
         marginBottom:11,
         marginRight:18,
+        height:20,
+        width:20,
+        backgroundColor:'#FFF'
     },
     conteinerPhoto:{
         height:"85%",
